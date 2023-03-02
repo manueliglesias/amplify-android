@@ -52,7 +52,7 @@ public abstract class GraphQLOperation<R> extends ApiOperation<GraphQLRequest<R>
         try {
             return responseFactory.buildResponse(getRequest(), jsonResponse);
         } catch (ClassCastException cce) {
-            throw new ApiException("Amplify encountered an error while deserializing an object",
+            throw new ApiException.NonRetryableException("Amplify encountered an error while deserializing an object",
                     AmplifyException.TODO_RECOVERY_SUGGESTION);
         }
     }

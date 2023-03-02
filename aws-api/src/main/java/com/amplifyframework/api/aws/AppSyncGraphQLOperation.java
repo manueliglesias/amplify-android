@@ -146,6 +146,13 @@ public final class AppSyncGraphQLOperation<R> extends GraphQLOperation<R> {
                 onFailure.accept(new ApiException
                         .NonRetryableException("OkHttp client request failed.", "Irrecoverable error")
                 );
+                return;
+            }
+
+            if(!response.isSuccessful()) {
+                onFailure.accept(new ApiException("Non-success status code received, code=" + response.code(),
+                        AmplifyException.TODO_RECOVERY_SUGGESTION));
+                return;
             }
 
             try {

@@ -320,6 +320,7 @@ public final class DataStoreConfiguration {
             this.conflictHandler = DataStoreConflictHandler.alwaysApplyRemote();
             this.syncExpressions = new HashMap<>();
             this.ensureDefaults = false;
+            this.doSyncRetry = true;
         }
 
         private Builder(JSONObject pluginJson, DataStoreConfiguration userProvidedConfiguration) {

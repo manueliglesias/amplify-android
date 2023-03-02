@@ -696,6 +696,7 @@ public final class AWSDataStorePlugin extends DataStorePlugin<Void> {
          */
         public Builder dataStoreConfiguration(DataStoreConfiguration dataStoreConfiguration) {
             this.dataStoreConfiguration = dataStoreConfiguration;
+            this.isSyncRetryEnabled = true;
             return this;
         }
 

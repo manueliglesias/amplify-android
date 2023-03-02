@@ -174,11 +174,20 @@ public final class MultiAuthAppSyncGraphQLOperation<R> extends GraphQLOperation<
                 }
             }
 
+            // assume that it is json, what if not? retryable?
+            // ok, it is json, what if 4XX? could be auth or could be something else
+
             try {
                 GraphQLResponse<R> graphQLResponse = wrapResponse(jsonResponse);
                 if (graphQLResponse.hasErrors() && hasAuthRelatedErrors(graphQLResponse) && authTypes.hasNext()) {
                     executorService.submit(MultiAuthAppSyncGraphQLOperation.this::dispatchRequest);
                 } else {
+                    // No GraphQL auth errors, but could still be a non 2XX response.
+                    if(!response.isSuccessful()) {
+                        throw new ApiException("Non-success status code received, code=" + response.code(),
+                                AmplifyException.TODO_RECOVERY_SUGGESTION);
+                    }
+
                     onResponse.accept(graphQLResponse);
                 }
                 //TODO: Dispatch to hub
